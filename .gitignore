@@ -1,0 +1,26 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/table/node_modules
+/table/.pnp
+/table/.pnp.js
+
+# Ignore node_modules at the root of International-Pokedex
+/node_modules
+
+# testing
+/table/coverage
+
+# production
+/table/build
+
+# misc
+/table/.DS_Store
+/table/.env.local
+/table/.env.development.local
+/table/.env.test.local
+/table/.env.production.local
+
+/table/npm-debug.log*
+/table/yarn-debug.log*
+/table/yarn-error.log*
