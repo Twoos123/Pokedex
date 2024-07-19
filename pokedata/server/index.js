@@ -27,8 +27,6 @@ const schema = buildSchema(`
     name: Name
     type: [String]
     base: Base
-    abilities: [String]
-    weight: Float
   }
   
   type Name {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import './PokemonDetail.css'; // Import the CSS for styling
 
 const PokemonDetail = () => {
     const { id } = useParams();
@@ -60,12 +61,12 @@ const PokemonDetail = () => {
     }, [id]);
 
     const goToNextPokemon = () => {
-        const nextPokemonId = parseInt(id) === 898 ? 1 : parseInt(id) + 1;
+        const nextPokemonId = parseInt(id) === 809 ? 1 : parseInt(id) + 1;
         navigate(`/pokemon/${nextPokemonId}`);
     };
 
     const goToPreviousPokemon = () => {
-        const previousPokemonId = parseInt(id) === 1 ? 898 : parseInt(id) - 1; 
+        const previousPokemonId = parseInt(id) === 1 ? 809 : parseInt(id) - 1;
         navigate(`/pokemon/${previousPokemonId}`);
     };
 
@@ -73,34 +74,33 @@ const PokemonDetail = () => {
         navigate('/');
     };
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
+    if (loading) return <div className="pokemon-card">Loading...</div>;
+    if (error) return <div className="pokemon-card">{error}</div>;
     if (!pokemon) return null;
+
     return (
-        <div>
-            <div>
-                <button onClick={goToPreviousPokemon}>Previous Pokemon</button>
-                <h2>{pokemon.name.english}</h2>
-                <button onClick={goToNextPokemon}>Next Pokemon</button>
+        <div className="pokemon-card">
+            <div className="title-row">
+                <button className="nav-button" onClick={goToPreviousPokemon}>Previous Pokemon</button>
+                <h2 className="pokemon-name">{pokemon.name.english}</h2>
+                <button className="nav-button" onClick={goToNextPokemon}>Next Pokemon</button>
             </div>
-            <div>
-                <div>
-                    <img src={`https://img.pokemondb.net/artwork/${pokemon.name.english.toLowerCase()}.jpg`} alt={pokemon.name.english} />
+            <div className="center">
+                <div className="center-left">
+                    <img className="pokemon-image" src={`https://img.pokemondb.net/artwork/${pokemon.name.english.toLowerCase()}.jpg`} alt={pokemon.name.english} />
                 </div>
-                <div>
-                    <p>No. {pokemon.id}</p>
-                    <div>
+                <div className="center-right">
+                    <p className="pokemon-number">ID: {pokemon.id}</p>
+                    <div className="pokemon-types">
                         {pokemon.type.map((type, index) => (
-                            <span key={index}>
-                                {type}
-                            </span>
+                            <span key={index} className="type">Type: {type}</span>
                         ))}
                     </div>
                 </div>
             </div>
-            <div>
-                <div>
-                    <h3>Base Stats:</h3>
+            <div className="stats-container">
+                <div className="stats-left">
+                    <h3 className="stats-left-title">Base Stats:</h3>
                     <p>HP: {pokemon.base.HP}</p>
                     <p>Attack: {pokemon.base.Attack}</p>
                     <p>Defense: {pokemon.base.Defense}</p>
@@ -108,15 +108,15 @@ const PokemonDetail = () => {
                     <p>Sp. Defense: {pokemon.base.SpDefense}</p>
                     <p>Speed: {pokemon.base.Speed}</p>
                 </div>
-                <div>
-                    <h3>Also Called:</h3>
+                <div className="stats-right">
+                    <h3 className="stats-right-title">Name in different languages:</h3>
                     <p>Japanese: {pokemon.name.japanese}</p>
                     <p>Chinese: {pokemon.name.chinese}</p>
                     <p>French: {pokemon.name.french}</p>
                 </div>
             </div>
-            <div>
-                <button onClick={goToPokemonTable}>Back to Pokemon List</button>
+            <div className="back-button-container">
+                <button className="back-button" onClick={goToPokemonTable}>Back to Pokemon List</button>
             </div>
         </div>
     );
