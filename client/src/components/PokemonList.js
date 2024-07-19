@@ -1,60 +1,104 @@
-import React, { useEffect, useState } from 'react';
-import Search from './Search';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-function PokemonList() {
-  const [pokemons, setPokemons] = useState([]);
-  const [filteredPokemons, setFilteredPokemons] = useState([]);
+const PokemonList = () => {
+    const [pokemons, setPokemons] = useState([]);
 
-  useEffect(() => {
-    fetch('http://localhost:4000/api/pokemon')
-      .then((response) => response.json())
-      .then((data) => {
-        setPokemons(data);
-        setFilteredPokemons(data);
-      });
-  }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            const query = {
+                query: `
+                    {
+                        pokemons {
+                            id
+                            name {
+                                english
+                            }
+                            type
+                            base {
+                                HP
+                                Attack
+                                Defense
+                                SpAttack
+                                SpDefense
+                                Speed
+                            }
+                        }
+                    }
+                `
+            };
 
-  const handleSearch = (term) => {
-    const lowerCaseTerm = term.toLowerCase();
-    const filtered = pokemons.filter((pokemon) =>
-      pokemon.name.english.toLowerCase().includes(lowerCaseTerm)
+            try {
+                const response = await fetch('http://localhost:4000/graphql', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(query)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+
+                const { data } = await response.json();
+                setPokemons(data.pokemons);
+            } catch (error) {
+                console.error('Error fetching Pokémon data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    return (
+        <div>
+            <h1>
+                Pokémon Pokedex
+            </h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>HP</th>
+                        <th>Attack</th>
+                        <th>Defense</th>
+                        <th>Sp. Atk</th>
+                        <th>Sp. Def</th>
+                        <th>Speed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {pokemons.map(pokemon => (
+                        <tr key={pokemon.id}>
+                            <td>
+                                <img src={`https://img.pokemondb.net/sprites/black-white/anim/normal/${pokemon.name.english.toLowerCase()}.gif`} alt={pokemon.name.english} />
+                                {pokemon.id}
+                            </td>
+                            <td>
+                                <Link to={`/pokemon/${pokemon.id}`}>{pokemon.name.english}</Link>
+                            </td>
+                            <td>
+                                {pokemon.type.map((type, index) => (
+                                    <span key={index} className={`type ${type.toLowerCase()}`}>
+                                        {type}
+                                    </span>
+                                ))}
+                            </td>
+                            <td>{pokemon.base.HP}</td>
+                            <td>{pokemon.base.Attack}</td>
+                            <td>{pokemon.base.Defense}</td>
+                            <td>{pokemon.base.SpAttack}</td>
+                            <td>{pokemon.base.SpDefense}</td>
+                            <td>{pokemon.base.Speed}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
-    setFilteredPokemons(filtered);
-  };
-
-  return (
-    <div>
-      <Search onSearch={handleSearch} />
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>HP</th>
-            <th>Attack</th>
-            <th>Defense</th>
-            <th>Sp. Attack</th>
-            <th>Sp. Defense</th>
-            <th>Speed</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredPokemons.map((pokemon) => (
-            <tr key={pokemon.id}>
-              <td>{pokemon.name.english}</td>
-              <td>{pokemon.type.join(', ')}</td>
-              <td>{pokemon.base.HP}</td>
-              <td>{pokemon.base.Attack}</td>
-              <td>{pokemon.base.Defense}</td>
-              <td>{pokemon.base.SpAttack}</td>
-              <td>{pokemon.base.SpDefense}</td>
-              <td>{pokemon.base.Speed}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
+};
 
 export default PokemonList;

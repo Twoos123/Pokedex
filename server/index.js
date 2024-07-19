@@ -3,12 +3,15 @@ const { buildSchema } = require('graphql');
 const { graphqlHTTP } = require('express-graphql');
 const fs = require('fs');
 const path = require('path');
-
 const cors = require('cors');
+
 const app = express();
 const port = 4000;
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
 
 const filePath = path.join(__dirname, '../pokedata/pokedex.json');
 const pokemonData = JSON.parse(fs.readFileSync(filePath));
@@ -47,10 +50,32 @@ const schema = buildSchema(`
 
 const root = {
   pokemons: () => {
-    return pokemonData;
+    return pokemonData.map(pokemon => ({
+      ...pokemon,
+      base: {
+        HP: pokemon.base.HP,
+        Attack: pokemon.base.Attack,
+        Defense: pokemon.base.Defense,
+        SpAttack: pokemon.base["Sp. Attack"],
+        SpDefense: pokemon.base["Sp. Defense"],
+        Speed: pokemon.base.Speed,
+      }
+    }));
   },
   pokemon: ({ id }) => {
-    return pokemonData.find(p => p.id === id);
+    const pokemon = pokemonData.find(p => p.id === id);
+    if (!pokemon) return null;
+    return {
+      ...pokemon,
+      base: {
+        HP: pokemon.base.HP,
+        Attack: pokemon.base.Attack,
+        Defense: pokemon.base.Defense,
+        SpAttack: pokemon.base["Sp. Attack"],
+        SpDefense: pokemon.base["Sp. Defense"],
+        Speed: pokemon.base.Speed,
+      }
+    };
   },
 };
 
@@ -59,13 +84,13 @@ app.use('/graphql', graphqlHTTP({
   rootValue: root,
   graphiql: true, 
 }));
-  
+
 app.get('/api/pokemon', (req, res) => {
   res.json(pokemonData);
 });
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
-  console.log(`Access the array of all Pokémon: http://localhost:${port}/api/pokemon`);
+  console.log(`Access the array of all the Pokémon: http://localhost:${port}/api/pokemon`);
   console.log(`Open GraphiQL tool: http://localhost:${port}/graphql`);
 });

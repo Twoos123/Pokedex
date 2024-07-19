@@ -1,0 +1,28 @@
+.pokemon-list {
+    height: calc(100vh - 120px); 
+  }
+  
+  .pokemon-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .pokemon-table th,
+  .pokemon-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
