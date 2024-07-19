@@ -23,7 +23,7 @@ A full-stack web application featuring a Pokémon Pokedex built with Node.js, Ex
 
 ```
 git clone https://github.com/Twoos123/PokedexIkarus.git
-cd PokexIkarus
+cd PokedexIkarus
 ```
 2. Install dependencies:
 
