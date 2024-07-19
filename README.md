@@ -31,6 +31,8 @@ cd PokexIkarus
 npm install
 ```
 
+(try npm install --force if encountering dependency issues)
+
 3. Run the server:
 ```
 node server/index.js
