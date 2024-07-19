@@ -50,6 +50,7 @@ const PokemonDetail = () => {
                 const data = await response.json();
                 setPokemon(data.data.pokemon);
                 setLoading(false);
+                window.scrollTo(0, 0);
             } catch (error) {
                 console.error('Error fetching Pokémon details:', error);
                 setError('Failed to fetch Pokémon details. Please try again later.');
@@ -74,6 +75,18 @@ const PokemonDetail = () => {
         navigate('/');
     };
 
+    const getSpriteUrl = (pokemonName) => {
+        let formattedName = pokemonName.toLowerCase().replace(/♂/g, '-m')
+            .replace(/♀/g, '-f')
+            .replace(/\./g, '')
+            .replace(/:/g, '')
+            .replace(/'/g, '')
+            .replace(/é/g, 'e')
+            .replace(/ /g, '-');
+
+        return `https://img.pokemondb.net/sprites/home/normal/${formattedName}.png`;
+    };
+
     if (loading) return <div className="pokemon-card">Loading...</div>;
     if (error) return <div className="pokemon-card">{error}</div>;
     if (!pokemon) return null;
@@ -87,7 +100,7 @@ const PokemonDetail = () => {
             </div>
             <div className="center">
                 <div className="center-left">
-                    <img className="pokemon-image" src={`https://img.pokemondb.net/artwork/${pokemon.name.english.toLowerCase()}.jpg`} alt={pokemon.name.english} />
+                    <img className="pokemon-image" src={getSpriteUrl(pokemon.name.english)} alt={pokemon.name.english} />
                 </div>
                 <div className="center-right">
                     <p className="pokemon-number">ID: {pokemon.id}</p>

@@ -1,7 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100..900&display=swap');
+
+body {
+    font-family: 'Encode Sans', sans-serif;
+}
+
 .pokemon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
+    margin: 40px auto;
+    padding: 20px 20px;
     background-color: #393986;
     color: #ddd;
     border-radius: 8px;
@@ -12,47 +21,39 @@
 .title-row {
     display: flex;
     justify-content: space-between;
+    width: 100%;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.nav-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.nav-button:hover {
-    background-color: #0056b3; 
-}
-
 .pokemon-name {
+    font-size: 2em;
+    font-weight: bold;
     text-align: center;
-    margin: 0;
-    font-size: 24px;
     color: #ddd;
 }
 
 .center {
     display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     margin-bottom: 20px;
 }
 
 .center-left {
-    flex: 1;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     color: #ddd;
 }
 
 .center-right {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
     color: #ddd;
+    margin-left: 20px;
 }
 
 .pokemon-image {
@@ -61,19 +62,21 @@
     object-fit: cover;
     border-radius: 10%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 5px solid #1f1f1f; 
+    border: 5px solid #1f1f1f;
 }
 
 .pokemon-number {
+    font-size: 1.0em;
     text-align: center;
     margin-bottom: 10px;
     font-weight: bold;
-    color: #ddd; /* Light text */
+    color: #ddd;
 }
 
 .pokemon-types {
     display: flex;
     justify-content: center;
+    gap: 5px;
     margin-bottom: 20px;
 }
 
@@ -83,14 +86,15 @@
     border-radius: 4px;
     text-transform: capitalize;
     font-weight: bold;
-    background-color: #292929; 
-    color: #ddd; 
+    background-color: #292929;
+    color: #ddd;
 }
 
 .stats-container {
     display: flex;
-    justify-content: space-around;
-    background-color: #292929; 
+    justify-content: space-between;
+    gap: 55px;
+    background-color: #292929;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -99,34 +103,68 @@
 .stats-left,
 .stats-right {
     text-align: center;
-    flex: 1;
-    color: #ddd; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #ddd;
 }
 
 .stats-left-title,
 .stats-right-title {
-    margin-bottom: 10px;
+    font-size: 1.3em;
+    margin-bottom: 1px;
     text-align: center;
     color: #ddd;
+}
+
+.stats-left p,
+.stats-right p {
+    text-align: center;
+    margin: 4px 0;
+    margin-left: 8px;
+}
+
+.bottom-row {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Center the elements horizontally */
+    align-items: center; /* Center the elements vertically */
+}
+
+.nav-button,
+.back-button {
+    font-family: 'Encode Sans', sans-serif;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-button:hover,
+.back-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.nav-button:active,
+.back-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
 }
 
 .back-button-container {
     display: flex;
     justify-content: center;
+    align-items: center; 
+    width: 100%; 
     margin-top: 20px;
 }
 
 .back-button {
-    padding: 10px 20px;
-    background-color: #007bff; 
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: auto 0px;
-}
-
-.back-button:hover {
-    background-color: #0056b3; 
+    margin: auto;
 }

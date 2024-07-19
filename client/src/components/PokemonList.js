@@ -12,6 +12,7 @@ const PokemonList = () => {
     const [filters, setFilters] = useState({ type: '' });
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(100);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -96,7 +97,6 @@ const PokemonList = () => {
     
         setFilteredPokemons(sortedPokemons);
     };
-    
 
     const getSortableValue = useCallback((pokemon, key) => {
         if (key === 'total') return calculateTotal(pokemon.base);
@@ -107,7 +107,6 @@ const PokemonList = () => {
         }
         return pokemon[key];
     }, []);
-    
 
     const calculateTotal = (base) => {
         return Object.values(base).reduce((acc, cur) => acc + cur, 0);
@@ -125,8 +124,14 @@ const PokemonList = () => {
             return matchesType;
         });
 
+        if (searchTerm.trim() !== '') {
+            filtered = filtered.filter(pokemon =>
+                pokemon.name.english.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
         setFilteredPokemons(filtered);
-    }, [pokemons, filters]);
+    }, [pokemons, filters, searchTerm]);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -137,10 +142,17 @@ const PokemonList = () => {
     return (
         <div>
             <h1>Pokémon Pokedex</h1>
-            <div className="filters">
-                <label>
+            <div className="search-filter-container">
+                <input
+                    type="text"
+                    placeholder="Search Pokémon..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-input"
+                />
+                <label className="filter-label">
                     Filter by Type:
-                    <select onChange={(e) => handleFilterChange('type', e.target.value)}>
+                    <select onChange={(e) => handleFilterChange('type', e.target.value)} className="filter-select">
                         <option value="">All</option>
                         <option value="Normal">Normal</option>
                         <option value="Fire">Fire</option>
