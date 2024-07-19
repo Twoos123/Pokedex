@@ -20,21 +20,21 @@
   text-align: center;
   margin-right: 10px;
   font-weight: bold;
-  color: black;
+  color: white;
 }
 
 .filters select {
   padding: 8px 12px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  background-color: #7fb521;
-  color:  black;
+  background-color: #292929;
+  color:  white;
   transition: background-color 0.3s ease;
   text-align: center;
 }
 
 .filters select:hover {
-  background-color: #7fb521;
+  background-color: #0056b3;
 }
 
 table {
@@ -74,7 +74,7 @@ tbody tr:nth-child(odd) {
 td {
   padding: 12px;
   text-align: center;
-  color: #7fb521;
+  color: white;
 }
 
 .pokemon-sprite {
@@ -93,7 +93,7 @@ td {
 .pagination button {
   padding: 10px 20px;
   margin-right: 5px;
-  background-color: #1e88e5;
+  background-color: #292929;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -116,12 +116,12 @@ body {
 }
 
 h1 {
-  color: black;
+  color: white;
   text-align: center;
 }
 
 a {
-  color: #7fb521;
+  color: white;
   text-decoration: none;
   transition: color 0.3s ease;
 }

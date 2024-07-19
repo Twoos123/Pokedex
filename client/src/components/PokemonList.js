@@ -81,7 +81,6 @@ const PokemonList = () => {
             setSortDirection('asc');
         }
     
-
         const sortedPokemons = [...filteredPokemons].sort((a, b) => {
             const valueA = getSortableValue(a, key);
             const valueB = getSortableValue(b, key);
@@ -97,15 +96,18 @@ const PokemonList = () => {
     
         setFilteredPokemons(sortedPokemons);
     };
+    
 
     const getSortableValue = useCallback((pokemon, key) => {
         if (key === 'total') return calculateTotal(pokemon.base);
         if (key === 'name') return pokemon.name.english.toLowerCase();
-        if (key === 'SpAttack' || key === 'SpDefense') {
-            return pokemon.base[key];
+        if (key.startsWith('base.')) {
+            const baseKey = key.split('.')[1];
+            return pokemon.base[baseKey];
         }
-        return pokemon.base[key] || pokemon.id;
+        return pokemon[key];
     }, []);
+    
 
     const calculateTotal = (base) => {
         return Object.values(base).reduce((acc, cur) => acc + cur, 0);

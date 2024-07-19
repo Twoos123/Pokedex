@@ -2,10 +2,11 @@
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #1f1f1f; 
+    background-color: #6161b8;
     color: #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .title-row {
@@ -17,7 +18,7 @@
 
 .nav-button {
     padding: 10px 20px;
-    background-color: #007bff; /* Blue */
+    background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -26,13 +27,14 @@
 }
 
 .nav-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3; 
 }
 
 .pokemon-name {
     text-align: center;
     margin: 0;
-    font-size: 24px; /* Larger font size */
+    font-size: 24px;
+    color: #ddd;
 }
 
 .center {
@@ -45,25 +47,28 @@
 .center-left {
     flex: 1;
     text-align: center;
+    color: #ddd;
 }
 
 .center-right {
     flex: 1;
+    color: #ddd;
 }
 
 .pokemon-image {
     width: 200px;
     height: 200px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 10%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 5px solid #1f1f1f; /* Dark border around image */
+    border: 5px solid #1f1f1f; 
 }
 
 .pokemon-number {
     text-align: center;
     margin-bottom: 10px;
     font-weight: bold;
+    color: #ddd; /* Light text */
 }
 
 .pokemon-types {
@@ -78,14 +83,14 @@
     border-radius: 4px;
     text-transform: capitalize;
     font-weight: bold;
-    background-color: #292929; /* Dark gray background */
-    color: #ddd; /* Light text */
+    background-color: #292929; 
+    color: #ddd; 
 }
 
 .stats-container {
     display: flex;
     justify-content: space-around;
-    background-color: #292929; /* Dark gray background */
+    background-color: #292929; 
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -95,13 +100,14 @@
 .stats-right {
     text-align: center;
     flex: 1;
+    color: #ddd; 
 }
 
 .stats-left-title,
 .stats-right-title {
     margin-bottom: 10px;
     text-align: center;
-    color: #ddd; /* Light text */
+    color: #ddd;
 }
 
 .back-button-container {
@@ -112,7 +118,7 @@
 
 .back-button {
     padding: 10px 20px;
-    background-color: #007bff; /* Blue */
+    background-color: #007bff; 
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -122,5 +128,5 @@
 }
 
 .back-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3; 
 }

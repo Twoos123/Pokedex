@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './PokemonDetail.css'; // Import the CSS for styling
+import './PokemonDetail.css';
 
 const PokemonDetail = () => {
     const { id } = useParams();
