@@ -97,6 +97,7 @@ The React app will be running at http://localhost:3000.
 ## How to Use
  
 Click on the column headers (ID, Name, HP, Attack, etc.) to sort Pokémon in ascending or descending order.
-- Filtering: Use the dropdown to filter Pokémon by type.
+- Searching: Use the searchbar to look for a specific Pokémon.
+- Filtering: Use the dropdown to filter Pokmon by type.
 - Pagination: Navigate through pages using the pagination buttons at the bottom.
 - Detailed View: Click on the name of the Pokemon to get a detailed view.
