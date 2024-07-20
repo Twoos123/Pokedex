@@ -87,6 +87,22 @@ const PokemonDetail = () => {
         return `https://img.pokemondb.net/sprites/home/normal/${formattedName}.png`;
     };
 
+    const renderStatBar = (statName, value) => {
+        // Assume max value for stats is 255 (common in Pokémon games)
+        const maxStatValue = 255;
+        const barWidth = (value / maxStatValue) * 100; // percentage width
+
+        return (
+            <div className="stat-bar">
+                <span className="stat-label">{statName}</span>
+                <div className="bar-container">
+                    <div className="bar" style={{ width: `${barWidth}%` }}></div>
+                </div>
+                <span className="stat-value">{value}</span>
+            </div>
+        );
+    };
+
     if (loading) return <div className="pokemon-card">Loading...</div>;
     if (error) return <div className="pokemon-card">{error}</div>;
     if (!pokemon) return null;
@@ -94,9 +110,9 @@ const PokemonDetail = () => {
     return (
         <div className="pokemon-card">
             <div className="title-row">
-                <button className="nav-button" onClick={goToPreviousPokemon}>Previous Pokemon</button>
+                <button className="nav-button" onClick={goToPreviousPokemon}>Previous Pokémon</button>
                 <h2 className="pokemon-name">{pokemon.name.english}</h2>
-                <button className="nav-button" onClick={goToNextPokemon}>Next Pokemon</button>
+                <button className="nav-button" onClick={goToNextPokemon}>Next Pokémon</button>
             </div>
             <div className="center">
                 <div className="center-left">
@@ -106,7 +122,9 @@ const PokemonDetail = () => {
                     <p className="pokemon-number">ID: {pokemon.id}</p>
                     <div className="pokemon-types">
                         {pokemon.type.map((type, index) => (
-                            <span key={index} className="type">Type: {type}</span>
+                            <span key={index} className={`type ${type.toLowerCase()}`}>
+                                {type}
+                            </span>
                         ))}
                     </div>
                 </div>
@@ -114,12 +132,12 @@ const PokemonDetail = () => {
             <div className="stats-container">
                 <div className="stats-left">
                     <h3 className="stats-left-title">Base Stats:</h3>
-                    <p>HP: {pokemon.base.HP}</p>
-                    <p>Attack: {pokemon.base.Attack}</p>
-                    <p>Defense: {pokemon.base.Defense}</p>
-                    <p>Sp. Attack: {pokemon.base.SpAttack}</p>
-                    <p>Sp. Defense: {pokemon.base.SpDefense}</p>
-                    <p>Speed: {pokemon.base.Speed}</p>
+                    {renderStatBar('HP', pokemon.base.HP)}
+                    {renderStatBar('Attack', pokemon.base.Attack)}
+                    {renderStatBar('Defense', pokemon.base.Defense)}
+                    {renderStatBar('Sp. Attack', pokemon.base.SpAttack)}
+                    {renderStatBar('Sp. Defense', pokemon.base.SpDefense)}
+                    {renderStatBar('Speed', pokemon.base.Speed)}
                 </div>
                 <div className="stats-right">
                     <h3 className="stats-right-title">Name in different languages:</h3>
@@ -129,7 +147,7 @@ const PokemonDetail = () => {
                 </div>
             </div>
             <div className="back-button-container">
-                <button className="back-button" onClick={goToPokemonTable}>Back to Pokemon List</button>
+                <button className="back-button" onClick={goToPokemonTable}>Back to Pokémon List</button>
             </div>
         </div>
     );

@@ -9,10 +9,11 @@ const PokemonList = () => {
     const [filteredPokemons, setFilteredPokemons] = useState([]);
     const [sortKey, setSortKey] = useState('id');
     const [sortDirection, setSortDirection] = useState('asc');
-    const [filters, setFilters] = useState({ type: '' });
+    const [filters, setFilters] = useState({ types: [] });
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(100);
     const [searchTerm, setSearchTerm] = useState('');
+    const [showScrollButton, setShowScrollButton] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -60,6 +61,16 @@ const PokemonList = () => {
         };
 
         fetchData();
+    }, []);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setShowScrollButton(window.scrollY > 100);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const getSpriteUrl = (pokemonName) => {
@@ -113,15 +124,19 @@ const PokemonList = () => {
         return Object.values(base).reduce((acc, cur) => acc + cur, 0);
     };
 
-    const handleFilterChange = (key, value) => {
-        const newFilters = { ...filters, [key]: value };
-        setFilters(newFilters);
+    const handleFilterChange = (value) => {
+        setFilters(prevFilters => {
+            const newTypes = prevFilters.types.includes(value)
+                ? prevFilters.types.filter(type => type !== value)
+                : [...prevFilters.types, value];
+            
+            return { types: newTypes };
+        });
     };
 
     useEffect(() => {
         let filtered = pokemons.filter(pokemon => {
-            const typeFilter = filters.type.toLowerCase();
-            const matchesType = typeFilter === '' || pokemon.type.some(type => type.toLowerCase().includes(typeFilter));
+            const matchesType = filters.types.length === 0 || pokemon.type.some(type => filters.types.includes(type));
             return matchesType;
         });
 
@@ -147,6 +162,12 @@ const PokemonList = () => {
         });
     };
 
+    const pokemonTypes = [
+        "Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison",
+        "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark",
+        "Steel", "Fairy"
+    ];
+
     return (
         <div>
             <h1>Pokémon Pokedex</h1>
@@ -160,27 +181,19 @@ const PokemonList = () => {
                 />
                 <label className="filter-label">
                     Filter by Type:
-                    <select onChange={(e) => handleFilterChange('type', e.target.value)} className="filter-select">
-                        <option value="">All</option>
-                        <option value="Normal">Normal</option>
-                        <option value="Fire">Fire</option>
-                        <option value="Water">Water</option>
-                        <option value="Electric">Electric</option>
-                        <option value="Grass">Grass</option>
-                        <option value="Ice">Ice</option>
-                        <option value="Fighting">Fighting</option>
-                        <option value="Poison">Poison</option>
-                        <option value="Ground">Ground</option>
-                        <option value="Flying">Flying</option>
-                        <option value="Psychic">Psychic</option>
-                        <option value="Bug">Bug</option>
-                        <option value="Rock">Rock</option>
-                        <option value="Ghost">Ghost</option>
-                        <option value="Dragon">Dragon</option>
-                        <option value="Dark">Dark</option>
-                        <option value="Steel">Steel</option>
-                        <option value="Fairy">Fairy</option>
-                    </select>
+                    <div className="filter-checkboxes">
+                        {pokemonTypes.map((type) => (
+                            <label key={type} className="checkbox-container">
+                                <input
+                                    type="checkbox"
+                                    checked={filters.types.includes(type)}
+                                    onChange={() => handleFilterChange(type)}
+                                />
+                                <span className="checkmark"></span>
+                                {type}
+                            </label>
+                        ))}
+                    </div>
                 </label>
             </div>
             <table>
@@ -267,14 +280,16 @@ const PokemonList = () => {
 
             <div className="pagination">
                 {Array.from({ length: Math.ceil(filteredPokemons.length / itemsPerPage) }, (_, index) => (
-                    <button key={index} onClick={() => paginate(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>
+                    <button key={index + 1} onClick={() => paginate(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>
                         {index + 1}
                     </button>
                 ))}
             </div>
 
             <div className="scroll-to-top">
-                <button onClick={scrollToTop} className={`scroll-to-top-button ${window.scrollY > 100 ? 'show' : ''}`}>
+                <button 
+                    onClick={scrollToTop} 
+                    className={`scroll-to-top-button ${showScrollButton ? 'show' : ''}`}>
                     <FontAwesomeIcon icon={faArrowUp} />
                 </button>
             </div>
