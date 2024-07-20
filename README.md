@@ -6,6 +6,7 @@ A full-stack web application featuring a Pokémon Pokedex built with Node.js, Ex
 - Sort Pokémon by ID, name, HP, attack, defense, special attack, special defense, and speed.
 - Filter Pokémon by type.
 - Paginate through the list of Pokémon.
+- Searchbar to find your favourite Pokémon with ease.
 
 ## Technologies Used Server-side:
 - Node.js
