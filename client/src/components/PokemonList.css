@@ -225,3 +225,36 @@ a:hover {
 .spacer {
     height: 5px;
 }
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.scroll-to-top-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.scroll-to-top-button.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-to-top-button:hover {
+  transform: translateY(-5px);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { faSortUp, faSortDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import './PokemonList.css';
 
 const PokemonList = () => {
@@ -53,7 +53,7 @@ const PokemonList = () => {
 
                 const { data } = await response.json();
                 setPokemons(data.pokemons);
-                setFilteredPokemons(data.pokemons); 
+                setFilteredPokemons(data.pokemons);
             } catch (error) {
                 console.error('Error fetching Pokémon data:', error);
             }
@@ -63,7 +63,8 @@ const PokemonList = () => {
     }, []);
 
     const getSpriteUrl = (pokemonName) => {
-        let formattedName = pokemonName.toLowerCase().replace(/♂/g, '-m')
+        let formattedName = pokemonName.toLowerCase()
+            .replace(/♂/g, '-m')
             .replace(/♀/g, '-f')
             .replace(/\./g, '')
             .replace(/:/g, '')
@@ -81,11 +82,11 @@ const PokemonList = () => {
             setSortKey(key);
             setSortDirection('asc');
         }
-    
+
         const sortedPokemons = [...filteredPokemons].sort((a, b) => {
             const valueA = getSortableValue(a, key);
             const valueB = getSortableValue(b, key);
-    
+
             if (valueA < valueB) {
                 return sortDirection === 'asc' ? -1 : 1;
             }
@@ -94,7 +95,7 @@ const PokemonList = () => {
             }
             return 0;
         });
-    
+
         setFilteredPokemons(sortedPokemons);
     };
 
@@ -138,6 +139,13 @@ const PokemonList = () => {
     const currentPokemons = filteredPokemons.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
 
     return (
         <div>
@@ -256,13 +264,20 @@ const PokemonList = () => {
                     ))}
                 </tbody>
             </table>
-           
+
             <div className="pagination">
                 {Array.from({ length: Math.ceil(filteredPokemons.length / itemsPerPage) }, (_, index) => (
                     <button key={index} onClick={() => paginate(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>
                         {index + 1}
                     </button>
                 ))}
+            </div>
+
+            {/* Scroll to top button */}
+            <div className="scroll-to-top">
+                <button onClick={scrollToTop} className={`scroll-to-top-button ${window.scrollY > 100 ? 'show' : ''}`}>
+                    <FontAwesomeIcon icon={faArrowUp} />
+                </button>
             </div>
         </div>
     );
