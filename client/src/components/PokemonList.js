@@ -273,7 +273,6 @@ const PokemonList = () => {
                 ))}
             </div>
 
-            {/* Scroll to top button */}
             <div className="scroll-to-top">
                 <button onClick={scrollToTop} className={`scroll-to-top-button ${window.scrollY > 100 ? 'show' : ''}`}>
                     <FontAwesomeIcon icon={faArrowUp} />
