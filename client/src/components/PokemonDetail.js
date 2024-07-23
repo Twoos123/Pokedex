@@ -88,10 +88,9 @@ const PokemonDetail = () => {
     };
 
     const renderStatBar = (statName, value) => {
-        // Assume max value for stats is 255 (common in Pokémon games)
         const maxStatValue = 255;
-        const barWidth = (value / maxStatValue) * 100; // percentage width
-
+        const barWidth = (value / maxStatValue) * 100;
+    
         return (
             <div className="stat-bar">
                 <span className="stat-label">{statName}</span>
@@ -136,7 +135,7 @@ const PokemonDetail = () => {
                     {renderStatBar('Attack', pokemon.base.Attack)}
                     {renderStatBar('Defense', pokemon.base.Defense)}
                     {renderStatBar('Sp. Attack', pokemon.base.SpAttack)}
-                    {renderStatBar('Sp. Defense', pokemon.base.SpDefense)}
+                    {renderStatBar('Sp. Def', pokemon.base.SpDefense)}
                     {renderStatBar('Speed', pokemon.base.Speed)}
                 </div>
                 <div className="stats-right">

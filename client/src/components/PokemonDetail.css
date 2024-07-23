@@ -146,20 +146,26 @@ body {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .stat-label {
     font-weight: bold;
-    margin-right: 10px;
+    margin-right: 20px;
+    min-width: 80px;
+    text-align: left;
+    display: inline-block;
 }
 
 .bar-container {
     background-color: #444;
     border-radius: 4px;
     height: 20px;
-    width: 200px; /* Set a fixed width or adjust as needed */
+    width: 200px; 
     overflow: hidden;
     position: relative;
+    margin-right: 20px; 
 }
 
 .bar {
@@ -171,7 +177,9 @@ body {
 
 .stat-value {
     font-weight: bold;
-    margin-left: 10px;
+    min-width: 40px;
+    text-align: right;
+    display: inline-block;
 }
 
 .bottom-row {
