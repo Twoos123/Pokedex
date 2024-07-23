@@ -14,7 +14,7 @@ A full-stack web application featuring a Pokémon Pokedex built with Node.js, Ex
 - GraphQL
 - Cors
 
-## Client-side:
+## Technologies Used Client-side:
 - React
 - React Router
 - FontAwesome Icons
