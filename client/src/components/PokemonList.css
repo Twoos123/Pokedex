@@ -56,7 +56,15 @@ body {
     text-align: center;
     margin-right: 3px;
     font-weight: bold;
-    color: white;
+    color: black;
+}
+
+.filter-checkboxes {
+    font-family: 'Encode Sans', sans-serif;
+    text-align: center;
+    margin-right: 3px;
+    font-weight: bold;
+    color: yellow;
 }
 
 .filters select {
@@ -65,7 +73,7 @@ body {
     border-radius: 4px;
     border: 1px solid #ccc;
     background-color: #292929;
-    color: white;
+    color: black;
     transition: background-color 0.3s ease;
     text-align: center;
 }
@@ -79,7 +87,7 @@ table {
     width: 70%; 
     border-collapse: collapse;
     margin: 0 auto 15px auto; 
-    background-color: white;
+    background-color: black;
 }
 
 thead th {
