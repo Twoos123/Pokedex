@@ -15,7 +15,7 @@ if (process.env.VERCEL_ENV === 'production') {
   // IMPORTANT: Replace 'https://your-pokedex-prod-url.vercel.app' with your actual Vercel production domain
   // You will get this URL after your first successful production deployment.
   // For example: corsOrigin = 'https://pokedex-abc123xyz.vercel.app';
-  corsOrigin = 'https://pokedex-sage-three.vercel.app';
+  corsOrigin = 'https://pokedex-asad-alis-projects-fd8bb8e3.vercel.app';
 } else if (process.env.VERCEL_URL) { // For Vercel preview deployments (e.g., branch deployments)
   corsOrigin = `https://${process.env.VERCEL_URL}`;
 }
