@@ -2,8 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/graphql.js", 
-      "use": "@vercel/node" 
+      "src": "api/graphql.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "outputDirectory": "build"
+      }
     }
   ],
   "rewrites": [
