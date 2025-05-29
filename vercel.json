@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "api/graphql.js", 
+      "use": "@vercel/node" 
+    }
+  ],
   "rewrites": [
     { "source": "/graphql", "destination": "/api/graphql" },
     { "source": "/api/pokemon", "destination": "/api/graphql" },
