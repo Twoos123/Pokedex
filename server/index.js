@@ -17,7 +17,7 @@ if (process.env.VERCEL_ENV === 'production') {
   // For example: corsOrigin = 'https://pokedex-abc123xyz.vercel.app';
   corsOrigin = 'https://your-pokedex-prod-url.vercel.app'; //
 } else if (process.env.VERCEL_URL) { // For Vercel preview deployments (e.g., branch deployments)
-  corsOrigin = `https://${process.env.VERCEL_URL}`;
+  corsOrigin = 'https://pokedex-sage-three.vercel.app';
 }
 // Fallback if it's a Vercel environment but the above conditions didn't set a specific URL
 // This allows any *.vercel.app domain, which is less secure but can be a temporary measure.

@@ -19,6 +19,6 @@
   "rewrites": [
     { "source": "/graphql", "destination": "/server/index.js" },
     { "source": "/api/pokemon", "destination": "/server/index.js" },
-    { "source": "/(.*)", "destination": "/client/build/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
