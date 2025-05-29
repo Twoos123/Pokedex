@@ -17,8 +17,8 @@
     }
   ],
   "rewrites": [
-    { "source": "/graphql", "destination": "/server/index.js" },
-    { "source": "/api/pokemon", "destination": "/server/index.js" },
+    { "source": "/graphql", "destination": "/server" },
+    { "source": "/api/pokemon", "destination": "/server" },
     { "source": "/static/(.*)", "destination": "/client/static/$1" },
     { "source": "/(.*)", "destination": "/client/index.html" }
   ]
