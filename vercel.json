@@ -17,8 +17,8 @@
     }
   ],
   "rewrites": [
-    { "source": "/graphql", "destination": "/server" },
-    { "source": "/api/pokemon", "destination": "/server" },
+    { "source": "/graphql", "destination": "/server/index" },
+    { "source": "/api/pokemon", "destination": "/server/index" },
     { "source": "/manifest.json", "destination": "/client/manifest.json" },
     { "source": "/favicon.ico", "destination": "/client/favicon.ico" },
     { "source": "/static/(.*)", "destination": "/client/static/$1" },
