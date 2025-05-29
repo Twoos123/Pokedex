@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/graphql.js",
+      "src": "api/index.js",
       "use": "@vercel/node"
     },
     {
@@ -14,8 +14,8 @@
     }
   ],
   "rewrites": [
-    { "source": "/graphql", "destination": "/api/graphql" },
-    { "source": "/api/pokemon", "destination": "/api/graphql" },
+    { "source": "/graphql", "destination": "/api" },
+    { "source": "/api/pokemon", "destination": "/api" },
     { "source": "/manifest.json", "destination": "/manifest.json" },
     { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/static/(.*)", "destination": "/static/$1" },
