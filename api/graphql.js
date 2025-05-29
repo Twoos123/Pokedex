@@ -1,40 +1,41 @@
 const express = require('express');
 const { buildSchema } = require('graphql');
-const { createHandler } = require('graphql-http/lib/use/express');
+const { createHandler } = require('graphql-http'); // Standard import
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 4000; // Vercel might set PORT
+// const PORT = process.env.PORT || 4000; // PORT is for local dev, Vercel handles it
 
 // Dynamic CORS origin
 let corsOrigin = 'http://localhost:3000'; // Default for local client
 
 if (process.env.VERCEL_ENV === 'production') {
-  // IMPORTANT: Replace 'https://your-pokedex-prod-url.vercel.app' with your actual Vercel production domain
-  // You will get this URL after your first successful production deployment.
-  // For example: corsOrigin = 'https://pokedex-abc123xyz.vercel.app';
+  // Ensure this is your correct Vercel production domain
   corsOrigin = 'https://pokedex-sage-three.vercel.app';
-} else if (process.env.VERCEL_URL) { // For Vercel preview deployments (e.g., branch deployments)
+} else if (process.env.VERCEL_URL) { // For Vercel preview deployments
   corsOrigin = `https://${process.env.VERCEL_URL}`;
+} else if (process.env.VERCEL) { // Fallback for other Vercel environments
+  // This allows any *.vercel.app domain. For tighter security, consider if VERCEL_URL should always be present.
+  const vercelAppRegex = /vercel\.app$/;
+  if (typeof corsOrigin === 'string' && vercelAppRegex.test(corsOrigin)) {
+    // If corsOrigin is already a vercel.app URL (e.g. from VERCEL_URL), do nothing
+  } else {
+    corsOrigin = vercelAppRegex;
+  }
 }
-// Fallback if it's a Vercel environment but the above conditions didn't set a specific URL
-// This allows any *.vercel.app domain, which is less secure but can be a temporary measure.
-// It's better to set a specific production URL or use Vercel environment variables for the production origin.
-else if (process.env.VERCEL) {
-    corsOrigin = /vercel\.app$/;
-}
-
 
 app.use(cors({
   origin: corsOrigin,
   credentials: true,
 }));
 
-const filePath = path.join(__dirname, '../pokedata/pokedex.json');
-const pokemonData = JSON.parse(fs.readFileSync(path.join(__dirname, '../pokedata/pokedata.json'), 'utf8'));
+// Load Pokémon data
+const pokemonDataPath = path.join(__dirname, '../pokedata/pokedex.json');
+const pokemonData = JSON.parse(fs.readFileSync(pokemonDataPath, 'utf8'));
 
+// Define GraphQL schema
 const schema = buildSchema(`
   type Query {
     pokemons: [Pokemon]
@@ -65,6 +66,7 @@ const schema = buildSchema(`
   }
 `);
 
+// Define resolvers
 const root = {
   pokemons: () => {
     return pokemonData.map(pokemon => ({
@@ -96,21 +98,19 @@ const root = {
   },
 };
 
-app.all('/graphql', createHandler({
+// Mount the GraphQL handler at the root of this function's Express app
+// Since this file is api/graphql.js, requests to /api/graphql will hit this.
+app.all('/', createHandler({
   schema: schema,
   rootValue: root,
 }));
 
-app.get('/api/pokemon', (req, res) => {
-  res.json(pokemonData);
-});
-
-// Only listen locally. Vercel handles starting the server in serverless functions.
+// Local development listener (Vercel handles this in deployment)
 if (!process.env.VERCEL) {
-  app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-    console.log(`Access the array of all the Pokémon: http://localhost:${port}/api/pokemon`);
-    console.log(`Open GraphQL endpoint (e.g., with a client tool): http://localhost:${port}/graphql`);
+  const localPort = process.env.PORT || 4000;
+  app.listen(localPort, () => {
+    console.log(`Server running locally at http://localhost:${localPort}`);
+    console.log(`GraphQL endpoint available at http://localhost:${localPort}/`);
   });
 }
 
