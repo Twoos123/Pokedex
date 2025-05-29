@@ -24,6 +24,9 @@ const PokemonList = () => {
                             id
                             name {
                                 english
+                                japanese
+                                chinese
+                                french
                             }
                             type
                             base {
@@ -40,7 +43,8 @@ const PokemonList = () => {
             };
 
             try {
-                const response = await fetch('http://localhost:4000/graphql', {
+                // MODIFIED: Changed fetch URL to relative path for Vercel
+                const response = await fetch('/graphql', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -87,28 +91,25 @@ const PokemonList = () => {
     };
 
     const handleSortChange = (key) => {
-        if (sortKey === key) {
-            setSortDirection(prevDirection => prevDirection === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortKey(key);
-            setSortDirection('asc');
-        }
+        const newDirection = (sortKey === key && sortDirection === 'asc') ? 'desc' : 'asc';
+        setSortKey(key);
+        setSortDirection(newDirection);
 
         const sortedPokemons = [...filteredPokemons].sort((a, b) => {
             const valueA = getSortableValue(a, key);
             const valueB = getSortableValue(b, key);
 
             if (valueA < valueB) {
-                return sortDirection === 'asc' ? -1 : 1;
+                return newDirection === 'asc' ? -1 : 1;
             }
             if (valueA > valueB) {
-                return sortDirection === 'asc' ? 1 : -1;
+                return newDirection === 'asc' ? 1 : -1;
             }
             return 0;
         });
-
         setFilteredPokemons(sortedPokemons);
     };
+
 
     const getSortableValue = useCallback((pokemon, key) => {
         if (key === 'total') return calculateTotal(pokemon.base);
@@ -135,19 +136,29 @@ const PokemonList = () => {
     };
 
     useEffect(() => {
-        let filtered = pokemons.filter(pokemon => {
+        let tempFiltered = pokemons.filter(pokemon => {
             const matchesType = filters.types.length === 0 || pokemon.type.some(type => filters.types.includes(type));
             return matchesType;
         });
 
         if (searchTerm.trim() !== '') {
-            filtered = filtered.filter(pokemon =>
+            tempFiltered = tempFiltered.filter(pokemon =>
                 pokemon.name.english.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
+        
+        // Apply sorting whenever filters or search term changes
+        const sorted = [...tempFiltered].sort((a, b) => {
+            const valueA = getSortableValue(a, sortKey);
+            const valueB = getSortableValue(b, sortKey);
+            if (valueA < valueB) return sortDirection === 'asc' ? -1 : 1;
+            if (valueA > valueB) return sortDirection === 'asc' ? 1 : -1;
+            return 0;
+        });
 
-        setFilteredPokemons(filtered);
-    }, [pokemons, filters, searchTerm]);
+        setFilteredPokemons(sorted);
+        setCurrentPage(1); // Reset to first page on filter/search change
+    }, [pokemons, filters, searchTerm, sortKey, sortDirection, getSortableValue]);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;

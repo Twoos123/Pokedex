@@ -11,9 +11,11 @@ const PokemonDetail = () => {
 
     useEffect(() => {
         const fetchPokemonDetails = async () => {
+            setLoading(true);
+            setError(null);
             const query = JSON.stringify({
                 query: `{
-                    pokemon(id: ${id}) {
+                    pokemon(id: ${parseInt(id, 10)}) {
                         id
                         name {
                             english
@@ -35,7 +37,8 @@ const PokemonDetail = () => {
             });
 
             try {
-                const response = await fetch('http://localhost:4000/graphql', {
+                // MODIFIED: Changed fetch URL to relative path for Vercel
+                const response = await fetch('/graphql', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -44,16 +47,20 @@ const PokemonDetail = () => {
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch data');
+                    const errorData = await response.json();
+                    throw new Error(errorData.errors ? errorData.errors[0].message : 'Failed to fetch data');
                 }
 
-                const data = await response.json();
-                setPokemon(data.data.pokemon);
+                const responseData = await response.json();
+                if (responseData.errors) {
+                    throw new Error(responseData.errors[0].message);
+                }
+                setPokemon(responseData.data.pokemon);
                 setLoading(false);
                 window.scrollTo(0, 0);
             } catch (error) {
                 console.error('Error fetching Pokémon details:', error);
-                setError('Failed to fetch Pokémon details. Please try again later.');
+                setError(`Failed to fetch Pokémon details: ${error.message}. Please try again later.`);
                 setLoading(false);
             }
         };
@@ -62,12 +69,14 @@ const PokemonDetail = () => {
     }, [id]);
 
     const goToNextPokemon = () => {
-        const nextPokemonId = parseInt(id) === 809 ? 1 : parseInt(id) + 1;
+        const currentId = parseInt(id, 10);
+        const nextPokemonId = currentId >= 809 ? 1 : currentId + 1; // Assuming 809 is max ID
         navigate(`/pokemon/${nextPokemonId}`);
     };
 
     const goToPreviousPokemon = () => {
-        const previousPokemonId = parseInt(id) === 1 ? 809 : parseInt(id) - 1;
+        const currentId = parseInt(id, 10);
+        const previousPokemonId = currentId <= 1 ? 809 : currentId - 1; // Assuming 1 is min ID
         navigate(`/pokemon/${previousPokemonId}`);
     };
 
@@ -76,6 +85,7 @@ const PokemonDetail = () => {
     };
 
     const getSpriteUrl = (pokemonName) => {
+        if (!pokemonName) return '';
         let formattedName = pokemonName.toLowerCase().replace(/♂/g, '-m')
             .replace(/♀/g, '-f')
             .replace(/\./g, '')
@@ -88,8 +98,8 @@ const PokemonDetail = () => {
     };
 
     const renderStatBar = (statName, value) => {
-        const maxStatValue = 255;
-        const barWidth = (value / maxStatValue) * 100;
+        const maxStatValue = 255; // Typical max for a single stat
+        const barWidth = Math.min((value / maxStatValue) * 100, 100); // Cap at 100%
     
         return (
             <div className="stat-bar">
@@ -104,7 +114,7 @@ const PokemonDetail = () => {
 
     if (loading) return <div className="pokemon-card">Loading...</div>;
     if (error) return <div className="pokemon-card">{error}</div>;
-    if (!pokemon) return null;
+    if (!pokemon) return <div className="pokemon-card">Pokémon not found.</div>;
 
     return (
         <div className="pokemon-card">
