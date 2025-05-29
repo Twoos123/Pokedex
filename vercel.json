@@ -2,6 +2,13 @@
   "version": 2,
   "builds": [
     {
+      "src": "server/package.json",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["../pokedata/**", "index.js"]
+      }
+    },
+    {
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
@@ -10,6 +17,8 @@
     }
   ],
   "rewrites": [
+    { "source": "/graphql", "destination": "/server/index.js" },
+    { "source": "/api/pokemon", "destination": "/server/index.js" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
