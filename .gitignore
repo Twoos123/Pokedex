@@ -24,3 +24,4 @@
 /table/npm-debug.log*
 /table/yarn-debug.log*
 /table/yarn-error.log*
+.vercel

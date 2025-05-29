@@ -11,7 +11,7 @@
     {
       "src": "client/package.json",
       "use": "@vercel/static-build",
-      "config": { 
+      "config": {
         "outputDirectory": "build"
       }
     }
@@ -19,6 +19,7 @@
   "rewrites": [
     { "source": "/graphql", "destination": "/server/index.js" },
     { "source": "/api/pokemon", "destination": "/server/index.js" },
-    { "source": "/(.*)", "destination": "client/public/index.html" }
+    { "source": "/static/(.*)", "destination": "/client/static/$1" },
+    { "source": "/(.*)", "destination": "/client/index.html" }
   ]
 }
